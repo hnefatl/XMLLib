@@ -14,13 +14,15 @@ instance Show Attribute where
     show a = label a ++ "=\"" ++ value a ++ "\""
 
 
-
 data Element = Element
                {
                    tag :: String,
                    attributes :: [Attribute],
                    children :: [Element]
                }
+
+instance Show Element where
+    show = unlines . prettyPrint
 
 prettyPrint :: Element -> [String]
 prettyPrint e = let attribsPretty  = (concat . map ((" " ++) . show) . attributes) e :: String
@@ -32,7 +34,3 @@ prettyPrint e = let attribsPretty  = (concat . map ((" " ++) . show) . attribute
                         ("<" ++ tag e ++ attribsPretty ++ ">") :
                         map ("    " ++) elementsPretty ++
                         ["</" ++ tag e ++ ">"]
-
-
-instance Show Element where
-    show = unlines . prettyPrint

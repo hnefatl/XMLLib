@@ -6,4 +6,4 @@ main :: IO ()
 main = defaultMain testTree
 
 testTree :: TestTree
-testTree = testGroup "\nGlobal" [xmlTest]
+testTree = testGroup "Global" [xmlTest]
