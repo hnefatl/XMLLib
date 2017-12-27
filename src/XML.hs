@@ -4,8 +4,6 @@ module XML
     Element(..)
 ) where
 
-import Data.List (intercalate)
-
 data Attribute = Attribute
                  {
                     label :: String,
@@ -16,6 +14,7 @@ instance Show Attribute where
     show a = label a ++ "=\"" ++ value a ++ "\""
 
 
+
 data Element = Element
                {
                    tag :: String,
@@ -24,7 +23,7 @@ data Element = Element
                }
 
 prettyPrint :: Element -> [String]
-prettyPrint e = let attribsPretty  = (intercalate " " . map show . attributes) e :: String
+prettyPrint e = let attribsPretty  = (concat . map ((" " ++) . show) . attributes) e :: String
                     elementsPretty = (concatMap prettyPrint . children) e :: [String]
                 in
                     if null $ children e then
@@ -32,7 +31,7 @@ prettyPrint e = let attribsPretty  = (intercalate " " . map show . attributes) e
                     else
                         ("<" ++ tag e ++ attribsPretty ++ ">") :
                         map ("    " ++) elementsPretty ++
-                        ["<" ++ tag e ++ "/>"]
+                        ["</" ++ tag e ++ ">"]
 
 
 instance Show Element where
